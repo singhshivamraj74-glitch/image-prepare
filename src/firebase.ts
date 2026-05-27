@@ -1,4 +1,3 @@
-"use client";
 import { initializeApp } from "firebase/app";
 
 import {
@@ -15,7 +14,7 @@ const firebaseConfig = {
 
   projectId: "image-prepare",
 
-  storageBucket: "image-prepare.firebasestorage.app",
+  storageBucket: "image-prepare.appspot.com",
 
   messagingSenderId: "694155835531",
 
@@ -30,6 +29,7 @@ export const auth = getAuth(app);
 
 export const storage = getStorage(app);
 
-export const googleProvider = new GoogleAuthProvider();
+export const googleProvider =
+  new GoogleAuthProvider();
 
 export default app;
