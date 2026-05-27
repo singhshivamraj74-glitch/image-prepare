@@ -1,3 +1,5 @@
+"use client";
+
 import { initializeApp } from "firebase/app";
 
 import {
@@ -29,7 +31,6 @@ export const auth = getAuth(app);
 
 export const storage = getStorage(app);
 
-export const googleProvider =
-  new GoogleAuthProvider();
+export const googleProvider = new GoogleAuthProvider();
 
 export default app;
