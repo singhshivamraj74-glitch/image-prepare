@@ -7,7 +7,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
-import { auth, googleProvider } from "@/firebase";
+import { auth, googleProvider } from "../../firebase";
 
 export default function LoginPage() {
   const router = useRouter();

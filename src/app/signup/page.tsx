@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase";
+import { auth } from "../../firebase";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -26,7 +26,6 @@ export default function SignupPage() {
       alert("Account Created Successfully 🚀");
 
       window.location.href = "/dashboard";
-
     } catch (error: any) {
       alert(error.message);
     }
@@ -44,7 +43,6 @@ export default function SignupPage() {
 
         {/* Logo */}
         <div className="text-center mb-8">
-
           <h1 className="text-5xl font-extrabold leading-tight">
             Join{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
@@ -55,7 +53,6 @@ export default function SignupPage() {
           <p className="text-gray-400 mt-4 text-sm">
             AI Powered Image & PDF Tools Platform
           </p>
-
         </div>
 
         {/* Inputs */}
