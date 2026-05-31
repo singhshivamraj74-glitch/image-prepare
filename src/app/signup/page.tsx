@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -17,11 +18,20 @@ export default function SignupPage() {
     }
 
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        email: user.email,
+        createdAt: new Date(),
+      });
 
       alert("Account Created Successfully 🚀");
 
@@ -34,14 +44,11 @@ export default function SignupPage() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-black text-white px-5 overflow-hidden relative">
 
-      {/* Background Glow */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/20 blur-[120px]" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/20 blur-[120px]" />
 
-      {/* Signup Card */}
       <div className="relative z-10 w-full max-w-md bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[35px] p-10 shadow-2xl">
 
-        {/* Logo */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-extrabold leading-tight">
             Join{" "}
@@ -55,7 +62,6 @@ export default function SignupPage() {
           </p>
         </div>
 
-        {/* Inputs */}
         <div className="space-y-5">
 
           <input
@@ -74,9 +80,7 @@ export default function SignupPage() {
             className="w-full p-4 rounded-2xl bg-black/40 border border-white/10 outline-none focus:border-cyan-400 transition"
           />
 
-          {/* Checkbox */}
           <div className="flex items-center gap-3 text-sm text-gray-400">
-
             <input
               type="checkbox"
               checked={checked}
@@ -90,10 +94,8 @@ export default function SignupPage() {
                 Terms & Conditions
               </span>
             </p>
-
           </div>
 
-          {/* Button */}
           <button
             onClick={handleSignup}
             className="w-full py-4 rounded-2xl bg-cyan-400 text-black font-bold text-lg hover:scale-105 hover:bg-cyan-300 transition duration-300"
@@ -101,18 +103,14 @@ export default function SignupPage() {
             Create Free Account
           </button>
 
-          {/* Login Link */}
           <div className="text-center text-sm text-gray-500 pt-4">
-
             Already have an account?{" "}
-
             <Link
               href="/login"
               className="text-cyan-400 hover:text-cyan-300 transition"
             >
               Login
             </Link>
-
           </div>
 
         </div>
