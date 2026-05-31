@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
 import {
   collection,
   getDocs,
   orderBy,
   query,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
 
 import { db } from "@/firebase";
@@ -48,6 +51,27 @@ export default function BlogsPage() {
     }
   };
 
+  const deleteBlog = async (id: string) => {
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this blog?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await deleteDoc(doc(db, "blogs", id));
+
+      setBlogs((prev) =>
+        prev.filter((blog) => blog.id !== id)
+      );
+
+      alert("Blog deleted successfully");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to delete blog");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white p-10">
       <div className="flex justify-between items-center mb-8">
@@ -82,11 +106,12 @@ export default function BlogsPage() {
                 {blog.title}
               </h2>
 
-              <p className="text-gray-400 mb-3">
+              <p className="text-gray-400 mb-4">
                 {blog.slug}
               </p>
 
               <div className="flex gap-3">
+
                 <a
                   href={`/blog/${blog.slug}`}
                   target="_blank"
@@ -94,6 +119,14 @@ export default function BlogsPage() {
                 >
                   View
                 </a>
+
+                <button
+                  onClick={() => deleteBlog(blog.id)}
+                  className="bg-red-600 px-4 py-2 rounded"
+                >
+                  Delete
+                </button>
+
               </div>
             </div>
           ))}
