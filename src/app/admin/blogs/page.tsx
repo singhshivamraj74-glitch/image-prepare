@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   collection,
@@ -12,7 +13,11 @@ import {
   doc,
 } from "firebase/firestore";
 
-import { db } from "@/firebase";
+import {
+  onAuthStateChanged,
+} from "firebase/auth";
+
+import { db, auth } from "@/firebase";
 
 interface Blog {
   id: string;
@@ -22,12 +27,28 @@ interface Blog {
 }
 
 export default function BlogsPage() {
+  const router = useRouter();
+
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadBlogs();
-  }, []);
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      if (user.email !== "singhshivamraj74@gmail.com") {
+        router.push("/");
+        return;
+      }
+
+      loadBlogs();
+    });
+
+    return () => unsub();
+  }, [router]);
 
   const loadBlogs = async () => {
     try {
@@ -111,7 +132,6 @@ export default function BlogsPage() {
               </p>
 
               <div className="flex gap-3">
-
                 <a
                   href={`/blog/${blog.slug}`}
                   target="_blank"
@@ -126,7 +146,6 @@ export default function BlogsPage() {
                 >
                   Delete
                 </button>
-
               </div>
             </div>
           ))}
