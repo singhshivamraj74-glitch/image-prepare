@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,14 +35,13 @@ export const metadata: Metadata = {
   creator: "Image Prepare",
 
   metadataBase: new URL(
-    "https://imageprepare.vercel.app"
+    "https://image-prepare.vercel.app"
   ),
 
   openGraph: {
     title: "Image Prepare",
-    description:
-      "Free AI Image & PDF Tools Platform",
-    url: "https://imageprepare.vercel.app",
+    description: "Free AI Image & PDF Tools Platform",
+    url: "https://image-prepare.vercel.app",
     siteName: "Image Prepare",
     locale: "en_US",
     type: "website",
@@ -65,16 +63,14 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-black text-white">
-
-        {/* Google AdSense Verification */}
-        <Script
-          async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1202864998863567"
-          crossOrigin="anonymous"
+      <head>
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-1202864998863567"
         />
+      </head>
 
+      <body className="min-h-full flex flex-col bg-black text-white">
         <main className="flex-1">
           {children}
         </main>
@@ -93,7 +89,6 @@ export default function RootLayout({
             © 2026 Image Prepare. All rights reserved.
           </p>
         </footer>
-
       </body>
     </html>
   );
