@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,7 +33,6 @@ export const metadata: Metadata = {
   ],
 
   authors: [{ name: "Image Prepare" }],
-
   creator: "Image Prepare",
 
   metadataBase: new URL(
@@ -67,32 +67,31 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-black text-white">
 
+        {/* Google AdSense Verification */}
+        <Script
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1202864998863567"
+          crossOrigin="anonymous"
+        />
+
         <main className="flex-1">
           {children}
         </main>
 
         <footer className="border-t border-white/10 mt-20 py-10 text-center text-gray-400 bg-black">
-          
           <div className="flex flex-wrap justify-center gap-6 text-sm">
-
             <a href="/about">About</a>
-
             <a href="/contact">Contact</a>
-
             <a href="/privacy-policy">Privacy Policy</a>
-
             <a href="/terms">Terms</a>
-
             <a href="/disclaimer">Disclaimer</a>
-
             <a href="/faq">FAQ</a>
-
           </div>
 
           <p className="mt-6 text-xs text-gray-500">
             © 2026 Image Prepare. All rights reserved.
           </p>
-
         </footer>
 
       </body>
