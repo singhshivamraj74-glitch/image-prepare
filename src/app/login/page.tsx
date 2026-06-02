@@ -18,15 +18,25 @@ export default function LoginPage() {
   // EMAIL LOGIN
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      const user = userCredential.user;
 
       alert("Login Successful 🚀");
 
-      router.push("/dashboard");
+      if (
+        user.email ===
+        "singhshivamraj74@gmail.com"
+      ) {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
 
     } catch (error: any) {
       alert(error.message);
@@ -36,11 +46,23 @@ export default function LoginPage() {
   // GOOGLE LOGIN
   const handleGoogleLogin = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(
+        auth,
+        googleProvider
+      );
+
+      const user = result.user;
 
       alert("Google Login Successful 🚀");
 
-      router.push("/dashboard");
+      if (
+        user.email ===
+        "singhshivamraj74@gmail.com"
+      ) {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
 
     } catch (error: any) {
       alert(error.message);
@@ -50,14 +72,12 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden relative">
 
-      {/* Glow */}
       <div className="absolute top-[-200px] left-[-200px] w-[500px] h-[500px] bg-cyan-500/20 blur-[150px] rounded-full"></div>
 
       <div className="absolute bottom-[-200px] right-[-200px] w-[500px] h-[500px] bg-purple-500/20 blur-[150px] rounded-full"></div>
 
       <div className="relative z-10 grid lg:grid-cols-2 min-h-screen">
 
-        {/* LEFT */}
         <div className="hidden lg:flex flex-col justify-center px-20">
 
           <div className="mb-10">
@@ -79,7 +99,6 @@ export default function LoginPage() {
 
         </div>
 
-        {/* RIGHT */}
         <div className="flex items-center justify-center px-6 py-10">
 
           <div className="w-full max-w-md bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[35px] p-10 shadow-2xl">
