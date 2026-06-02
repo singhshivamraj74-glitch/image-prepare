@@ -12,6 +12,7 @@ export default function AdminPage() {
 
   const [email, setEmail] = useState("");
   const [blogCount, setBlogCount] = useState(0);
+  const [usersCount, setUsersCount] = useState(0);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -30,11 +31,18 @@ export default function AdminPage() {
       setEmail(user.email || "");
 
       try {
-        const snapshot = await getDocs(
+        const blogsSnapshot = await getDocs(
           collection(db, "blogs")
         );
 
-        setBlogCount(snapshot.size);
+        setBlogCount(blogsSnapshot.size);
+
+        const usersSnapshot = await getDocs(
+          collection(db, "users")
+        );
+
+        setUsersCount(usersSnapshot.size);
+
       } catch (error) {
         console.log(error);
       }
@@ -70,8 +78,6 @@ export default function AdminPage() {
         </button>
       </div>
 
-      {/* Stats */}
-
       <div className="grid md:grid-cols-3 gap-6 mb-10">
 
         <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
@@ -86,7 +92,7 @@ export default function AdminPage() {
           <h3 className="text-gray-400">Users</h3>
 
           <p className="text-5xl font-bold mt-3">
-            0
+            {usersCount}
           </p>
         </div>
 
@@ -99,8 +105,6 @@ export default function AdminPage() {
         </div>
 
       </div>
-
-      {/* Cards */}
 
       <div className="grid md:grid-cols-3 gap-6">
 
