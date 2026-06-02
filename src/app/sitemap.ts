@@ -1,19 +1,30 @@
-export default function sitemap() {
+import { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://imageprepare.com",
+      url: "https://image-prepare.vercel.app",
+      lastModified: new Date(),
     },
     {
-      url: "https://imageprepare.com/about",
+      url: "https://image-prepare.vercel.app/login",
+      lastModified: new Date(),
     },
     {
-      url: "https://imageprepare.com/contact",
+      url: "https://image-prepare.vercel.app/signup",
+      lastModified: new Date(),
     },
     {
-      url: "https://imageprepare.com/privacy-policy",
+      url: "https://image-prepare.vercel.app/dashboard",
+      lastModified: new Date(),
     },
     {
-      url: "https://imageprepare.com/terms",
+      url: "https://image-prepare.vercel.app/privacy-policy",
+      lastModified: new Date(),
+    },
+    {
+      url: "https://image-prepare.vercel.app/terms",
+      lastModified: new Date(),
     },
   ];
 }

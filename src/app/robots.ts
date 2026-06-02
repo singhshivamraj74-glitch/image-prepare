@@ -4,6 +4,6 @@ export default function robots() {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://imageprepare.com/sitemap.xml",
+    sitemap: "https://image-prepare.vercel.app/sitemap.xml",
   };
 }
