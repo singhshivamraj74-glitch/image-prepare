@@ -3,27 +3,44 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { signOut } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function AdminPage() {
   const router = useRouter();
+
   const [email, setEmail] = useState("");
+  const [blogCount, setBlogCount] = useState(0);
 
   useEffect(() => {
-    const user = auth.currentUser;
+    const checkAdmin = async () => {
+      const user = auth.currentUser;
 
-    if (!user) {
-      router.push("/login");
-      return;
-    }
+      if (!user) {
+        router.push("/login");
+        return;
+      }
 
-    if (user.email !== "singhshivamraj74@gmail.com") {
-      router.push("/");
-      return;
-    }
+      if (user.email !== "singhshivamraj74@gmail.com") {
+        router.push("/");
+        return;
+      }
 
-    setEmail(user.email || "");
+      setEmail(user.email || "");
+
+      try {
+        const snapshot = await getDocs(
+          collection(db, "blogs")
+        );
+
+        setBlogCount(snapshot.size);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    checkAdmin();
   }, [router]);
 
   const handleLogout = async () => {
@@ -59,16 +76,23 @@ export default function AdminPage() {
 
         <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
           <h3 className="text-gray-400">Blogs</h3>
-          <p className="text-5xl font-bold mt-3">1</p>
+
+          <p className="text-5xl font-bold mt-3">
+            {blogCount}
+          </p>
         </div>
 
         <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
           <h3 className="text-gray-400">Users</h3>
-          <p className="text-5xl font-bold mt-3">0</p>
+
+          <p className="text-5xl font-bold mt-3">
+            0
+          </p>
         </div>
 
         <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
           <h3 className="text-gray-400">Status</h3>
+
           <p className="text-green-500 text-3xl font-bold mt-3">
             Online
           </p>
@@ -84,7 +108,9 @@ export default function AdminPage() {
           href="/admin/blogs"
           className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 hover:border-cyan-500 transition"
         >
-          <div className="text-5xl mb-4">📝</div>
+          <div className="text-5xl mb-4">
+            📝
+          </div>
 
           <h2 className="text-2xl font-bold mb-2">
             Blogs
@@ -99,7 +125,9 @@ export default function AdminPage() {
           href="/admin/users"
           className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 hover:border-cyan-500 transition"
         >
-          <div className="text-5xl mb-4">👥</div>
+          <div className="text-5xl mb-4">
+            👥
+          </div>
 
           <h2 className="text-2xl font-bold mb-2">
             Users
@@ -114,7 +142,9 @@ export default function AdminPage() {
           href="/admin/settings"
           className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 hover:border-cyan-500 transition"
         >
-          <div className="text-5xl mb-4">⚙️</div>
+          <div className="text-5xl mb-4">
+            ⚙️
+          </div>
 
           <h2 className="text-2xl font-bold mb-2">
             Settings
@@ -126,6 +156,7 @@ export default function AdminPage() {
         </Link>
 
       </div>
+
     </div>
   );
 }
